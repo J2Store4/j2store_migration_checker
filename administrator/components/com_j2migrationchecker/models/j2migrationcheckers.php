@@ -62,7 +62,7 @@ class J2MigrationCheckerModelJ2MigrationCheckers extends FOFModel
         $query->where("type='module'");
         $db->setQuery($query);
         $data =   $db->loadObjectList();
-        $j2store_module =  array('mod_j2store_related_products','mod_j2store_search','mod_j2store_categories','mod_j2products','mod_j2store_cart');
+        $j2store_module =  array('mod_j2store_related_products','mod_j2store_search','mod_j2store_categories','mod_j2products','mod_j2store_cart','mod_j2store_menu');
        // in_array()
         $result = [];
         foreach($data as $key => $value) {
