@@ -200,6 +200,7 @@ class J2MigrationCheckerModelJ2MigrationCheckers extends F0FModel
                 $db->execute();
             }
         }else {
+            $query = $db->getQuery(true);
             $query->insert($db->qn('#__extension_check'))
                 ->columns($columns)
                 ->values($db->q($components_status) . ', ' . $db->q($plugins_status) . ',' . $db->q($modules_status). ',' . $db->q($template_status). ',' . $db->q($installation_status));
