@@ -40,7 +40,7 @@ class J2MigrationCheckerModelJ2MigrationCheckers extends F0FModel
         $db = JFactory::getDbo();
         $query = $db->getQuery(true);
         $this->getSelectQuery($query);
-        $query->where("element='com_easycheckout'");
+        $query->where($db->qn('element').'='.$db->q('com_easycheckout'));
         $db->setQuery($query);
         return $db->loadObjectList();
 
@@ -49,8 +49,8 @@ class J2MigrationCheckerModelJ2MigrationCheckers extends F0FModel
         $db = JFactory::getDbo();
         $query = $db->getQuery(true);
         $this->getSelectQuery($query);
-        $query->where("type='plugin'");
-        $query->where("folder='j2store' or element='easycheckout'");
+        $query->where($db->qn('type').'='.$db->q('plugin'));
+        $query->where($db->qn('folder').'='.$db->q('j2store').' or '.$db->qn('element').'='.$db->q('easycheckout'));
         $db->setQuery($query);
         $plugin_lists = $db->loadObjectList();
         $j2store_default_plugin =  array('shipping_free','shipping_standard','payment_cash','payment_moneyorder','payment_banktransfer','payment_paypal','report_products','payment_sagepayform','report_itemised','app_localization_data','app_diagnostics','app_currencyupdater','app_flexivariable','app_schemaproducts');
@@ -69,7 +69,7 @@ class J2MigrationCheckerModelJ2MigrationCheckers extends F0FModel
         $db = JFactory::getDbo();
         $query = $db->getQuery(true);
         $this->getSelectQuery($query);
-        $query->where("type='module'");
+        $query->where($db->qn('type').'='.$db->q('module'));
         $db->setQuery($query);
         $data =   $db->loadObjectList();
         $j2store_module =  array('mod_j2store_related_products','mod_j2store_search','mod_j2store_categories','mod_j2products','mod_j2store_cart','mod_j2store_menu');
