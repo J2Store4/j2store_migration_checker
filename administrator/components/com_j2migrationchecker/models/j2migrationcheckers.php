@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
  *
  * @since  0.0.1
  */
-class J2MigrationCheckerModelJ2MigrationCheckers extends FOFModel
+class J2MigrationCheckerModelJ2MigrationCheckers extends F0FModel
 {
 	/**
 	 * Method to get a table object, load it if necessary.
@@ -52,7 +52,17 @@ class J2MigrationCheckerModelJ2MigrationCheckers extends FOFModel
         $query->where("type='plugin'");
         $query->where("folder='j2store' or element='easycheckout'");
         $db->setQuery($query);
-        return  $db->loadObjectList();
+        $plugin_lists = $db->loadObjectList();
+        $j2store_default_plugin =  array('shipping_free','shipping_standard','payment_cash','payment_moneyorder','payment_banktransfer','payment_paypal','report_products','payment_sagepayform','report_itemised','app_localization_data','app_diagnostics','app_currencyupdater','app_flexivariable','app_schemaproducts');
+        $result = [];
+        foreach($plugin_lists as $key => $value) {
+            if(isset($value->element) && !empty($value->element)){
+                if(!in_array($value->element,$j2store_default_plugin)){
+                    $result[] = $value;
+                }
+            }
+        }
+        return $result;
     }
 
     public function getListModules(){
@@ -167,9 +177,9 @@ class J2MigrationCheckerModelJ2MigrationCheckers extends FOFModel
        $plugins_status = $this->pluginsStatus();
        $components_status = $this->componentsStatus();
        $template_status = $this->templateStatus();
-        $installation_status = false;
+        $installation_status = 0;
        if($components_status !== 'Not Ready' && $modules_status !== 'Not Ready' && $plugins_status !== 'Not Ready' && $template_status !== 'Not Ready' ) {
-            $installation_status = true;
+            $installation_status = 1;
        }
         $db = JFactory::getDbo();
         $query = $db->getQuery(true);
@@ -178,6 +188,7 @@ class J2MigrationCheckerModelJ2MigrationCheckers extends FOFModel
         $result = $db->loadObjectList();;
         if( is_array($result) && count($result)> 0 ){
             foreach ($result as $key => $value ) {
+                $query = $db->getQuery(true);
                 $query->update($db->qn('#__extension_check'));
                 $query->set($db->qn('component_status') . ' = ' . $db->q($components_status));
                 $query->set($db->qn('plugins_status') . ' = ' . $db->q($plugins_status));
