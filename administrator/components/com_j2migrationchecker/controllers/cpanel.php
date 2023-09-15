@@ -31,7 +31,7 @@ class J2MigrationCheckerControllerCpanel extends F0FController
         //JToolBarHelper::publish('testpublish');
         JToolBarHelper::unpublish('customunpublish');
         F0FModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_j2migrationchecker/models');
-        $model = FOFModel::getTmpInstance('J2MigrationCheckers', 'J2MigrationCheckerModel');
+        $model = F0FModel::getTmpInstance('J2MigrationCheckers', 'J2MigrationCheckerModel');
         $list_components = $model->getListComponents();
         $list_plugins = $model->getListPlugins();
         $list_modules = $model->getListModules();
@@ -46,19 +46,24 @@ class J2MigrationCheckerControllerCpanel extends F0FController
         $renamed_template_override = $this->getRenamedTemaplateOverride();
         $pagination = '';
         $view   = $this->getThisView('Cpanel');
-        $view->set('renamed_template_override',$renamed_template_override);
-        $view->set('install_status',$install_status);
-        $view->set('components_status',$components_status);
-        $view->set('modules_status',$modules_status);
-        $view->set('plugins_status',$plugins_status);
-        $view->set('templates_status',$template_status);
-        $view->set('list_modules',$list_modules);
-        $view->set('list_components',$list_components);
-        $view->set('list_plugins',$list_plugins);
-        $view->set('pagination',$pagination);
-        $view->set('template_override',$templates_override);
-        $view->setModel( $model, true );
-        $view->setLayout( 'default' );
+        if (version_compare(JVERSION, '3.99.99', 'ge')) {
+            $view->setModel($model, true);
+            $view->setLayout('J4_default');
+        }else {
+            $view->set('renamed_template_override', $renamed_template_override);
+            $view->set('install_status', $install_status);
+            $view->set('components_status', $components_status);
+            $view->set('modules_status', $modules_status);
+            $view->set('plugins_status', $plugins_status);
+            $view->set('templates_status', $template_status);
+            $view->set('list_modules', $list_modules);
+            $view->set('list_components', $list_components);
+            $view->set('list_plugins', $list_plugins);
+            $view->set('pagination', $pagination);
+            $view->set('template_override', $templates_override);
+            $view->setModel($model, true);
+            $view->setLayout('default');
+        }
         $view->display();
     }
 
@@ -66,7 +71,7 @@ class J2MigrationCheckerControllerCpanel extends F0FController
 
     public function getRenamedTemaplateOverride(){
         F0FModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_j2migrationchecker/models');
-        $model = FOFModel::getTmpInstance('J2MigrationCheckers', 'J2MigrationCheckerModel');
+        $model = F0FModel::getTmpInstance('J2MigrationCheckers', 'J2MigrationCheckerModel');
         $template_override = $model->getTemplate();
         $template_overridePath = [];
         foreach ($template_override as $key => $value){
@@ -86,7 +91,7 @@ class J2MigrationCheckerControllerCpanel extends F0FController
     public function installStatus()
     {
         F0FModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_j2migrationchecker/models');
-        $model = FOFModel::getTmpInstance('J2MigrationCheckers', 'J2MigrationCheckerModel');
+        $model = F0FModel::getTmpInstance('J2MigrationCheckers', 'J2MigrationCheckerModel');
         $components_status = $model->componentsStatus();
         $modules_status = $model->modulesStatus();
         $plugins_status = $model->pluginsStatus();
