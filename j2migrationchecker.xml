@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.2.0" method="upgrade">
     <name>J2Migration checker</name>
-    <creationDate>AUG 2023</creationDate>
+    <creationDate>JAN 2024</creationDate>
     <author>Thomas</author>
     <copyright>Copyright (c) 2023 Cartrabbit. All rights reserved.</copyright>
     <authorEmail>support@j2store.org</authorEmail>
     <authorUrl>https://www.j2store.org</authorUrl>
-    <version>1.0.1</version>
+    <version>1.0.3</version>
     <license>https://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description>J2store V4 Migration check</description>
     <scriptfile>script.j2migrationchecker.php</scriptfile>

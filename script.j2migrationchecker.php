@@ -22,7 +22,7 @@ class Com_J2MigrationCheckerInstallerScript
         if (JFile::exists($version_file)) {
             require_once($version_file);
             // abort if the current J2Store release is older
-            if (version_compare(J2STORE_VERSION, '3.99.99', 'ge')) {
+            if (($type == 'install') && version_compare(J2STORE_VERSION, '3.99.99', 'ge')) {
                 $app->enqueueMessage('You are using an latest version of J2Store. No need to migrate', 'warning');
                 return false;
             }
